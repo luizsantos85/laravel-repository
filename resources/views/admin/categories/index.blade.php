@@ -11,6 +11,10 @@
     <div class="col-md-12 mb-4">
         <a href="{{route('categories.create')}}" class="btn btn-primary">Nova Categoria</a>
     </div>
+
+
+    @include('includes.alerts.messages')
+
     <div class="card col-md-12">
         <div class="card-body ">
             <table class="table table-striped table-hover">

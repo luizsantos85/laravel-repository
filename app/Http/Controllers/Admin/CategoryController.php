@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUpdateCategoryFormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -36,9 +37,15 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUpdateCategoryFormRequest $request)
     {
-        dd($request->all());
+        DB::table('categories')->insert([
+            'title' => $request->title,
+            'url' => $request->url,
+            'description' => $request->description
+        ]);
+
+        return redirect()->route('categories.index')->with('success', 'Cadastro de Categoria realizado com sucesso.');
     }
 
     /**
