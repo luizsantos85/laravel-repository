@@ -57,6 +57,7 @@ class CategoryController extends Controller
     public function show($id)
     {
         //
+
     }
 
     /**
@@ -67,7 +68,12 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = DB::table('categories')->where('id', $id)->first();
+        if(!$category){
+            return redirect()->back();
+        }
+
+        return view('admin.categories.edit',compact('category'));
     }
 
     /**
@@ -77,9 +83,15 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUpdateCategoryFormRequest $request, $id)
     {
-        //
+        DB::table('categories')->update([
+            'title' => $request->title,
+            'url' => $request->url,
+            'description' => $request->description
+        ]);
+
+        return redirect()->route('categories.index')->with('success', 'Atualização de Categoria realizada com sucesso.');
     }
 
     /**

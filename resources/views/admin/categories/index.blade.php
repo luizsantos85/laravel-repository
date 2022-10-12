@@ -3,7 +3,7 @@
 @section('title', 'Categorias')
 
 @section('content_header')
-<h1>Categorias</h1>
+<h1>@yield('title')</h1>
 @stop
 
 @section('content')
@@ -35,8 +35,8 @@
                         <td>{{$category->url}}</td>
                         <td>{{$category->description}}</td>
                         <td>
-                            <a href="" class="btn btn-sm btn-primary">Editar</a>
-                            <a href="" class="btn btn-sm btn-danger">Excluir</a>
+                            <a href="{{route('categories.edit',$category->id)}}" class="btn btn-sm btn-outline-primary">Editar</a>
+                            <a href="" class="btn btn-sm btn-outline-danger">Excluir</a>
                         </td>
                     </tr>
                     @endforeach
