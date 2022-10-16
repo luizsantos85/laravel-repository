@@ -23,7 +23,7 @@
                         <th scope="col" style="width:50px;">#</th>
                         <th scope="col">Título</th>
                         <th scope="col">url</th>
-                        <th scope="col" style="width:150px;">Ações</th>
+                        <th scope="col" style="width:200px;">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,10 +37,20 @@
                             </a>
                         </td>
                         <td>{{$category->url}}</td>
+
                         <td>
                             <a href="{{route('categories.edit',$category->id)}}"
                                 class="btn btn-sm btn-outline-primary">Editar</a>
-                            <a href="" class="btn btn-sm btn-outline-danger">Excluir</a>
+
+                            <form action="{{route('categories.destroy', $category->id)}}" method="POST"
+                                class="d-inline">
+                                @method('DELETE')
+                                @csrf
+                                <button class="btn btn-sm btn-outline-danger" type="submit"
+                                    onclick="return confirm('Deseja realmente excluir o item?')">
+                                    Excluir
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     @endforeach

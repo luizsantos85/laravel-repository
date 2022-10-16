@@ -18,7 +18,7 @@ class CategoryController extends Controller
     {
         $categories = DB::table('categories')->get();
 
-        return view('admin.categories.index',compact('categories'));
+        return view('admin.categories.index', compact('categories'));
     }
 
     /**
@@ -74,11 +74,11 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = DB::table('categories')->where('id', $id)->first();
-        if(!$category){
+        if (!$category) {
             return redirect()->back();
         }
 
-        return view('admin.categories.edit',compact('category'));
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -91,12 +91,12 @@ class CategoryController extends Controller
     public function update(StoreUpdateCategoryFormRequest $request, $id)
     {
         DB::table('categories')
-            ->where('id',$id)
+            ->where('id', $id)
             ->update([
-            'title' => $request->title,
-            'url' => $request->url,
-            'description' => $request->description
-        ]);
+                'title' => $request->title,
+                'url' => $request->url,
+                'description' => $request->description
+            ]);
 
         return redirect()->route('categories.index')->with('success', 'Atualização de Categoria realizada com sucesso.');
     }
@@ -109,6 +109,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        
+        DB::table('categories')->where('id', $id)->delete();
+        return redirect()->route('categories.index')->with('success', 'Categoria excluída com sucesso.');
     }
 }
