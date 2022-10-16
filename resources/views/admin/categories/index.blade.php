@@ -23,7 +23,6 @@
                         <th scope="col" style="width:50px;">#</th>
                         <th scope="col">Título</th>
                         <th scope="col">url</th>
-                        <th scope="col">Descrição</th>
                         <th scope="col" style="width:150px;">Ações</th>
                     </tr>
                 </thead>
@@ -31,11 +30,16 @@
                     @foreach ($categories as $category)
                     <tr>
                         <th scope="row">{{$category->id}}</th>
-                        <td>{{$category->title}}</td>
-                        <td>{{$category->url}}</td>
-                        <td>{{$category->description}}</td>
                         <td>
-                            <a href="{{route('categories.edit',$category->id)}}" class="btn btn-sm btn-outline-primary">Editar</a>
+                            <a href="{{route('categories.show', $category->id)}}"
+                                class="font-weight-bold text-secondary">
+                                {{$category->title}}
+                            </a>
+                        </td>
+                        <td>{{$category->url}}</td>
+                        <td>
+                            <a href="{{route('categories.edit',$category->id)}}"
+                                class="btn btn-sm btn-outline-primary">Editar</a>
                             <a href="" class="btn btn-sm btn-outline-danger">Excluir</a>
                         </td>
                     </tr>

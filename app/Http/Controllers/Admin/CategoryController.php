@@ -56,8 +56,13 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = DB::table('categories')->where('id', $id)->first();
 
+        if (!$category) {
+            return redirect()->back();
+        }
+
+        return view('admin.categories.show', compact('category'));
     }
 
     /**
@@ -79,13 +84,15 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\StoreUpdateCategoryFormRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(StoreUpdateCategoryFormRequest $request, $id)
     {
-        DB::table('categories')->update([
+        DB::table('categories')
+            ->where('id',$id)
+            ->update([
             'title' => $request->title,
             'url' => $request->url,
             'description' => $request->description
@@ -102,6 +109,6 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
     }
 }
