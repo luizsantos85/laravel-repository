@@ -112,4 +112,33 @@ class CategoryController extends Controller
         DB::table('categories')->where('id', $id)->delete();
         return redirect()->route('categories.index')->with('success', 'Categoria excluída com sucesso.');
     }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return view
+     */
+    public function search(Request $request)
+    {
+        // $search = $request->search;
+        // $categories = DB::table('categories')
+        // ->where('title', 'LIKE', "%{$search}%")
+        // ->orWhere('url', 'LIKE', "%{$search}%")
+        // ->get();
+
+        $data = $request->all();
+        $categories = DB::table('categories')
+        ->where(function($query) use ($data){
+            if(isset($data['title'])){
+                $query->where('title', 'LIKE', "%{$data['title']}%" );
+            }
+            if(isset($data['url'])){
+                $query->orWhere('url', 'LIKE', "%{$data['url']}%" );
+            }
+        })
+        ->get();
+
+        return view('admin.categories.index', compact('categories', 'data'));
+    }
 }

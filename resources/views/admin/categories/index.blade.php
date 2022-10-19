@@ -12,6 +12,25 @@
         <a href="{{route('categories.create')}}" class="btn btn-primary">Nova Categoria</a>
     </div>
 
+    <div class="pb-3 col-md-12">
+        <div class="col">
+            <form class="form-inline" method="post" action="{{route('categorySearch')}}">
+                @csrf
+                <input type="text" name="title" id="" class="form-control col-md-3" placeholder="Pesquisar título..."
+                    {{-- value="{{ $data['title'] ?? '' }}" --}}
+                    >
+                <input type="text" name="url" id="" class="form-control col-md-3 ml-2" placeholder="Pesquisar url..."
+                    {{-- value="{{ $data['url'] ?? '' }}" --}}
+                    >
+                <button class="btn btn-default ml-2" type="submit">Pesquisar</button>
+            </form>
+
+            @if (isset($search))
+            <p><strong>Resultados para:</strong> {{$search}}</p>
+            @endif
+        </div>
+    </div>
+
 
     @include('includes.alerts.messages')
 
