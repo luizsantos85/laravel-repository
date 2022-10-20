@@ -22,5 +22,5 @@ Route::get('/', function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::any('/admin/categories/search', [CategoryController::class,'search'])->name('categorySearch');
 Route::resource('/admin/categories', CategoryController::class);
-Route::post('/admin/categories/search', [CategoryController::class,'search'])->name('categorySearch');

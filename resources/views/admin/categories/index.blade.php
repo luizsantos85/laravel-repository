@@ -17,11 +17,9 @@
             <form class="form-inline" method="post" action="{{route('categorySearch')}}">
                 @csrf
                 <input type="text" name="title" id="" class="form-control col-md-3" placeholder="Pesquisar título..."
-                    {{-- value="{{ $data['title'] ?? '' }}" --}}
-                    >
+                    {{-- value="{{ $data['title'] ?? '' }}" --}}>
                 <input type="text" name="url" id="" class="form-control col-md-3 ml-2" placeholder="Pesquisar url..."
-                    {{-- value="{{ $data['url'] ?? '' }}" --}}
-                    >
+                    {{-- value="{{ $data['url'] ?? '' }}" --}}>
                 <button class="btn btn-default ml-2" type="submit">Pesquisar</button>
             </form>
 
@@ -76,7 +74,30 @@
                 </tbody>
             </table>
         </div>
+
     </div>
+    @if (isset($data))
+    {{$categories->appends($data)->links()}}
+
+    @else
+    {{$categories->links()}}
+    @endif
+
+    {{-- @if ($categories->total() > $categories->perPage())
+    <nav>
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="{{$categories->previousPageUrl()}}">
+                    << </a>
+            </li>
+            @for ($i = 1; $i <= $categories->lastPage(); $i++)
+                <li class="page-item {{$categories->currentPage() == $i ? 'active' : ''}}">
+                    <a class="page-link " href="{{$categories->url($i)}}">{{$i}}</a>
+                </li>
+                @endfor
+                <li class="page-item"><a class="page-link" href="{{$categories->nextPageUrl()}}"> >> </a></li>
+        </ul>
+    </nav>
+    @endif --}}
 </div>
 
 

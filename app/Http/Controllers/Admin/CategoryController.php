@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
+
+    protected $perPage = 1;
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +19,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = DB::table('categories')->get();
+        $categories = DB::table('categories')->paginate($this->perPage);
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -127,17 +130,17 @@ class CategoryController extends Controller
         // ->orWhere('url', 'LIKE', "%{$search}%")
         // ->get();
 
-        $data = $request->all();
+        $data = $request->except('_token');
         $categories = DB::table('categories')
-        ->where(function($query) use ($data){
-            if(isset($data['title'])){
-                $query->where('title', 'LIKE', "%{$data['title']}%" );
-            }
-            if(isset($data['url'])){
-                $query->orWhere('url', 'LIKE', "%{$data['url']}%" );
-            }
-        })
-        ->get();
+            ->where(function($query) use ($data){
+                if(isset($data['title'])){
+                    $query->where('title', 'LIKE', "%{$data['title']}%" );
+                }
+                if(isset($data['url'])){
+                    $query->orWhere('url', 'LIKE', "%{$data['url']}%" );
+                }
+            })
+            ->paginate($this->perPage);
 
         return view('admin.categories.index', compact('categories', 'data'));
     }
