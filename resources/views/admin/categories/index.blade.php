@@ -6,7 +6,15 @@
 <h1>@yield('title')</h1>
 @stop
 
+
+
 @section('content')
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a></li>
+    <li class="breadcrumb-item active"><a href="{{route('categories.index')}}">Categorias</a></li>
+</ol>
+
 <div class="content row">
     <div class="col-md-12 mb-4">
         <a href="{{route('categories.create')}}" class="btn btn-primary">Nova Categoria</a>

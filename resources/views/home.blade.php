@@ -6,7 +6,15 @@
 <h1>Dashboard</h1>
 @stop
 
+
+
 @section('content')
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item active"><a href="{{route('home')}}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{{route('categories.index')}}">Categorias</a></li>
+</ol>
+
 <p>Welcome to this beautiful admin panel.</p>
 
 <div id="summernote">Hello Summernote</div>

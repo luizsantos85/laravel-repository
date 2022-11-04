@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 class CategoryController extends Controller
 {
 
-    protected $perPage = 1;
+    protected $perPage = 15;
 
     /**
      * Display a listing of the resource.
@@ -19,7 +19,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = DB::table('categories')->paginate($this->perPage);
+        $categories = DB::table('categories')->orderBy('id','desc')->paginate($this->perPage);
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -48,7 +48,7 @@ class CategoryController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect()->route('categories.index')->with('success', 'Cadastro de Categoria realizado com sucesso.');
+        return redirect()->route('categories.index')->with('success', 'Cadastro realizado com sucesso.');
     }
 
     /**
@@ -101,7 +101,7 @@ class CategoryController extends Controller
                 'description' => $request->description
             ]);
 
-        return redirect()->route('categories.index')->with('success', 'Atualização de Categoria realizada com sucesso.');
+        return redirect()->route('categories.index')->with('success', 'Atualização realizada com sucesso.');
     }
 
     /**
@@ -140,6 +140,7 @@ class CategoryController extends Controller
                     $query->orWhere('url', 'LIKE', "%{$data['url']}%" );
                 }
             })
+            ->orderBy('id', 'desc')
             ->paginate($this->perPage);
 
         return view('admin.categories.index', compact('categories', 'data'));
