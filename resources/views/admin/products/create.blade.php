@@ -1,26 +1,27 @@
 @extends('adminlte::page')
 
-@section('title', 'Cadastrar categoria')
+@section('title', 'Cadastrar produto')
 
 @section('content_header')
 <h1>@yield('title')</h1>
 <ol class="breadcrumb">
     <li class="breadcrumb-item "><a href="{{route('home')}}">Dashboard</a></li>
-    <li class="breadcrumb-item"><a href="{{route('categories.index')}}">Categorias</a></li>
-    <li class="breadcrumb-item active"><a href="{{route('categories.create')}}">Adicionar</a></li>
+    <li class="breadcrumb-item"><a href="{{route('products.index')}}">Produtos</a></li>
+    <li class="breadcrumb-item active"><a href="{{route('products.create')}}">Adicionar</a></li>
 </ol>
 @stop
 
 @section('content')
+
 
 <div class="content row">
 
     @include('includes.alerts.messages')
     <div class="card col-md-12">
         <div class="card-body  col-md-8 ml-auto mr-auto text-secondary">
-            <form action="{{route('categories.store')}}" method="POST">
+            <form action="{{route('products.store')}}" method="POST">
 
-                @include('admin.categories._partials.form')
+                @include('admin.products._partials.form')
 
             </form>
         </div>

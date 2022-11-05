@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::any('/admin/categories/search', [CategoryController::class,'search'])->name('categorySearch');
 Route::resource('/admin/categories', CategoryController::class);
+Route::resource('/admin/products', ProductController::class);

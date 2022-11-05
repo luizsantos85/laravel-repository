@@ -1,12 +1,12 @@
 @extends('adminlte::page')
 
-@section('title', 'Categorias')
+@section('title', 'Produtos')
 
 @section('content_header')
 <h1>@yield('title')</h1>
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a></li>
-    <li class="breadcrumb-item active"><a href="{{route('categories.index')}}">Categorias</a></li>
+    <li class="breadcrumb-item active"><a href="{{route('products.index')}}">Produtos</a></li>
 </ol>
 @stop
 
@@ -17,12 +17,12 @@
 
 <div class="content row">
     <div class="col-md-12 mb-4">
-        <a href="{{route('categories.create')}}" class="btn btn-primary">Nova Categoria</a>
+        <a href="" class="btn btn-primary">Novo Produto</a>
     </div>
 
     <div class="pb-3 col-md-12">
         <div class="col">
-            <form class="form-inline" method="post" action="{{route('categorySearch')}}">
+            <form class="form-inline" method="post" action="">
                 @csrf
                 <input type="text" name="title" id="" class="form-control col-md-3" placeholder="Pesquisar título..."
                     {{-- value="{{ $data['title'] ?? '' }}" --}}>
@@ -46,28 +46,30 @@
                 <thead>
                     <tr>
                         <th scope="col" style="width:50px;">#</th>
-                        <th scope="col">Título</th>
-                        <th scope="col">url</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Preço</th>
+                        <th scope="col">Categoria</th>
                         <th scope="col" style="width:200px;">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($categories as $category)
+                    @foreach ($products as $product)
                     <tr>
-                        <th scope="row">{{$category->id}}</th>
+                        <th scope="row">{{$product->id}}</th>
                         <td>
-                            <a href="{{route('categories.show', $category->id)}}"
+                            <a href=""
                                 class="font-weight-bold text-secondary">
-                                {{$category->title}}
+                                {{$product->name}}
                             </a>
                         </td>
-                        <td>{{$category->url}}</td>
+                        <td>R$ {{number_format($product->price,2)}}</td>
+                        <td>{{$product->category->title}}</td>
 
                         <td>
-                            <a href="{{route('categories.edit',$category->id)}}"
+                            <a href=""
                                 class="btn btn-sm btn-outline-primary">Editar</a>
 
-                            <form action="{{route('categories.destroy', $category->id)}}" method="POST"
+                            <form action="" method="POST"
                                 class="d-inline">
                                 @method('DELETE')
                                 @csrf
@@ -85,27 +87,11 @@
 
     </div>
     @if (isset($data))
-    {{$categories->appends($data)->links()}}
+    {{$products->appends($data)->links()}}
 
     @else
-    {{$categories->links()}}
+    {{$products->links()}}
     @endif
-
-    {{-- @if ($categories->total() > $categories->perPage())
-    <nav>
-        <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="{{$categories->previousPageUrl()}}">
-                    << </a>
-            </li>
-            @for ($i = 1; $i <= $categories->lastPage(); $i++)
-                <li class="page-item {{$categories->currentPage() == $i ? 'active' : ''}}">
-                    <a class="page-link " href="{{$categories->url($i)}}">{{$i}}</a>
-                </li>
-                @endfor
-                <li class="page-item"><a class="page-link" href="{{$categories->nextPageUrl()}}"> >> </a></li>
-        </ul>
-    </nav>
-    @endif --}}
 </div>
 
 

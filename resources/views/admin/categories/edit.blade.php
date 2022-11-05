@@ -4,15 +4,15 @@
 
 @section('content_header')
 <h1>@yield('title')</h1>
-@stop
-
-@section('content')
-
 <ol class="breadcrumb">
     <li class="breadcrumb-item "><a href="{{route('home')}}">Dashboard</a></li>
     <li class="breadcrumb-item"><a href="{{route('categories.index')}}">Categorias</a></li>
     <li class="breadcrumb-item active"><a href="{{route('categories.edit', $category->id)}}">Editar</a></li>
 </ol>
+@stop
+
+@section('content')
+
 
 <div class="content row">
 
