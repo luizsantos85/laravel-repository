@@ -10,14 +10,10 @@
 </ol>
 @stop
 
-
-
 @section('content')
-
-
 <div class="content row">
     <div class="col-md-12 mb-4">
-        <a href="" class="btn btn-primary">Novo Produto</a>
+        <a href="{{route('products.create')}}" class="btn btn-primary">Novo Produto</a>
     </div>
 
     <div class="pb-3 col-md-12">
@@ -37,7 +33,6 @@
         </div>
     </div>
 
-
     @include('includes.alerts.messages')
 
     <div class="card col-md-12">
@@ -47,8 +42,8 @@
                     <tr>
                         <th scope="col" style="width:50px;">#</th>
                         <th scope="col">Nome</th>
-                        <th scope="col">Preço</th>
                         <th scope="col">Categoria</th>
+                        <th scope="col">Preço</th>
                         <th scope="col" style="width:200px;">Ações</th>
                     </tr>
                 </thead>
@@ -57,20 +52,18 @@
                     <tr>
                         <th scope="row">{{$product->id}}</th>
                         <td>
-                            <a href=""
-                                class="font-weight-bold text-secondary">
+                            <a href="{{route('products.show', $product->id)}}" class="font-weight-bold text-secondary">
                                 {{$product->name}}
                             </a>
                         </td>
-                        <td>R$ {{number_format($product->price,2)}}</td>
                         <td>{{$product->category->title}}</td>
+                        <td>R$ {{number_format($product->price,2,',','.')}}</td>
 
                         <td>
-                            <a href=""
+                            <a href="{{route('products.edit', $product->id)}}"
                                 class="btn btn-sm btn-outline-primary">Editar</a>
 
-                            <form action="" method="POST"
-                                class="d-inline">
+                            <form action="{{route('products.destroy', $product->id)}}" method="POST" class="d-inline">
                                 @method('DELETE')
                                 @csrf
                                 <button class="btn btn-sm btn-outline-danger" type="submit"

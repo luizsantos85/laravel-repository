@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -35,7 +36,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('admin.products.create',compact('categories'));
     }
 
     /**
@@ -46,7 +48,9 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $this->product->create($request->all());
+        return redirect()->route('products.index')->with('success','Cadastro realizado com sucesso.');
     }
 
     /**
