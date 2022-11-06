@@ -61,12 +61,12 @@
 
                         <td>
                             <a href="{{route('products.edit', $product->id)}}"
-                                class="btn btn-sm btn-outline-primary">Editar</a>
+                                class="btn btn-sm btn-outline-warning">Editar</a>
 
                             <form action="{{route('products.destroy', $product->id)}}" method="POST" class="d-inline">
                                 @method('DELETE')
                                 @csrf
-                                <button class="btn btn-sm btn-outline-danger" type="submit"
+                                <button class="btn btn-sm btn-outline-secondary" type="submit"
                                     onclick="return confirm('Deseja realmente excluir o item?')">
                                     Excluir
                                 </button>

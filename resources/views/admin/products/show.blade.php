@@ -18,14 +18,14 @@
     <div class="card col-md-12">
         <div class="card-body  col-md-8 text-secondary">
             <p><strong>ID: </strong> {{$product->id}}</p>
+            <p><strong>Categoria: </strong> {{$product->category->title}}</p>
             <p><strong>Nome: </strong> {{$product->name}}</p>
             <p><strong>URL: </strong> {{$product->url}}</p>
             <p><strong>Descrição: </strong> {{$product->description}}</p>
             <p><strong>Preço: </strong> R$ {{number_format($product->price,2,',','.')}}</p>
-            <p><strong>Categoria: </strong> {{$product->category->title}}</p>
         </div>
         <div class="my-2">
-            <a href="{{route('products.index')}}" class="btn btn-danger">Voltar</a>
+            <a href="{{route('products.index')}}" class="btn btn-warning">Voltar</a>
         </div>
     </div>
 </div>

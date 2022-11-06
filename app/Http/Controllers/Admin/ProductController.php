@@ -68,7 +68,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = $this->product->find($id);
+        // $product = $this->product->find($id);
+        $product = $this->product->with('category')->where('id',$id)->first();
         if (!$product) {
             return redirect()->back()->with('error', 'Produto não encontrado.');
         }
@@ -84,8 +85,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
+        // $product = $this->product->find($id);
         $categories = Category::pluck('title', 'id');
-        $product = $this->product->find($id);
+        $product = $this->product->with('category')->where('id', $id)->first();
 
         if (!$product) {
             return redirect()->back()->with('error', 'Produto não encontrado.');
