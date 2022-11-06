@@ -36,4 +36,8 @@ $ php artisan key:generate
 
 **acessar localhost:(porta selecionada) para teste
 
+**Necessário ter Node instalado na máquina para renderizar o css
+$ npm install
+$ npm run dev
+
 ```
