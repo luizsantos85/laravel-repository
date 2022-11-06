@@ -19,12 +19,15 @@
     @include('includes.alerts.messages')
     <div class="card col-md-12">
         <div class="card-body  col-md-8 ml-auto mr-auto text-secondary">
-            <form action="{{route('products.update', $product->id)}}" method="POST">
+            {{-- <form action="{{route('products.update', $product->id)}}" method="POST">
                 @method('PUT')
-
                 @include('admin.products._partials.form')
+            </form> --}}
 
-            </form>
+            {{ Form::model($product, ['route'=> ['products.update',$product->id], 'class' => 'form'])}}
+                @method('PUT')
+                @include('admin.products._partials.form2')
+            {{ Form::close() }}
         </div>
     </div>
 </div>

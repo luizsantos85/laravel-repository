@@ -19,11 +19,14 @@
     @include('includes.alerts.messages')
     <div class="card col-md-12">
         <div class="card-body  col-md-8 ml-auto mr-auto text-secondary">
-            <form action="{{route('products.store')}}" method="POST">
-
+            {{-- <form action="{{route('products.store')}}" method="POST">
                 @include('admin.products._partials.form')
+            </form> --}}
 
-            </form>
+            {{-- Formulário dinâmico --}}
+            {{ Form::open(['route'=> 'products.store', 'class' => 'form'])}}
+                @include('admin.products._partials.form2')
+            {{ Form::close() }}
         </div>
     </div>
 </div>
