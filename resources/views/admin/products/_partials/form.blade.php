@@ -14,16 +14,19 @@
 </div>
 <div class="mb-3">
     <label for="description" class="form-label">Preço do Produto</label>
-    <input type="number" class="form-control" id="price" name="price" value="{{ $product->price?? old('price') }}">
+    <input type="text" class="form-control" id="price" name="price" value="{{ $product->price?? old('price') }}">
 </div>
 <div class="mb-3">
     <label for="description" class="form-label">Categoria do Produto</label>
     <select name="category_id" class="form-control">
         <option value>Selecione a categoria...</option>
         @forelse ($categories as $category)
-            <option value="{{$category->id}}">{{$category->title}}</option>
+        <option value="{{$category->id}}" @if (isset($product->category_id) && $category->id === $product->category_id)
+            selected @endif>
+            {{$category->title}}
+        </option>
         @empty
-            <option disabled>Nenhum responsável cadastrado</option>
+        <option disabled>Nenhuma categoria cadastrada.</option>
         @endforelse
     </select>
 </div>

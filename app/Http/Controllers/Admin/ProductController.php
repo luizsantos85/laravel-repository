@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUpdateProductFormRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -37,20 +38,26 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.products.create',compact('categories'));
+        return view('admin.products.create', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\StoreUpdateProductFormRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUpdateProductFormRequest $request)
     {
-        // dd($request->all());
+        // cadastrar via relacionamento
+        /*       $category = Category::findOrFail($request->category_id);
+        if(!$category){
+            return redirect()->route('products.index')->with('error', 'Categoria não cadastrada.');
+        }
+        $product = $category->products()->create($request->all()); */
+
         $this->product->create($request->all());
-        return redirect()->route('products.index')->with('success','Cadastro realizado com sucesso.');
+        return redirect()->route('products.index')->with('success', 'Produto cadastrado com sucesso.');
     }
 
     /**
@@ -61,7 +68,12 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = $this->product->find($id);
+        if (!$product) {
+            return redirect()->back()->with('error', 'Produto não encontrado.');
+        }
+
+        return view('admin.products.show', compact('product'));
     }
 
     /**
@@ -72,19 +84,32 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categories = Category::all();
+        $product = $this->product->find($id);
+
+        if (!$product) {
+            return redirect()->back()->with('error', 'Produto não encontrado.');
+        }
+
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\StoreUpdateProductFormRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUpdateProductFormRequest $request, $id)
     {
-        //
+        $product = $this->product->find($id);
+
+        if (!$product) {
+            return redirect()->back()->with('error', 'Produto não encontrado.');
+        }
+        $product->update($request->all());
+        return redirect()->route('products.index')->with('success', 'Produto atualizado com sucesso.');
     }
 
     /**
@@ -95,6 +120,11 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = $this->product->find($id);
+        if (!$product) {
+            return redirect()->back()->with('error', 'Produto não encontrado.');
+        }
+        $product->delete();
+        return redirect()->route('products.index')->with('success', 'Produto deletado com sucesso.');
     }
 }
