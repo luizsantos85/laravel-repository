@@ -37,8 +37,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::pluck('title', 'id');
-        return view('admin.products.create', compact('categories'));
+        return view('admin.products.create');
     }
 
     /**
@@ -86,14 +85,13 @@ class ProductController extends Controller
     public function edit($id)
     {
         // $product = $this->product->find($id);
-        $categories = Category::pluck('title', 'id');
         $product = $this->product->with('category')->where('id', $id)->first();
 
         if (!$product) {
             return redirect()->back()->with('error', 'Produto não encontrado.');
         }
 
-        return view('admin.products.edit', compact('product', 'categories'));
+        return view('admin.products.edit', compact('product'));
     }
 
     /**
@@ -138,20 +136,30 @@ class ProductController extends Controller
      */
     public function search(Request $request)
     {
-        $data = $request->except('_token');
+        // $data = $request->except('_token');
+
+        // $products = $this->product->with(['category' => function($query) use ($request){
+        //     $query->where('id', $request->category);
+        // }
+        // ])
 
         $products = $this->product->with('category')
-            ->where(function ($query) use ($data) {
-                if (isset($data['name'])) {
-                    return $query->where('name', 'LIKE', "%{$data['name']}%");
+            ->where(function ($query) use ($request) {
+                if ($request->name) {
+                    $filter = $request->name;
+                    $query->where(function($subQuery) use ($filter){
+                        $subQuery->where('name', 'LIKE', "%{$filter}%");
+                    });
                 }
-                if (isset($data['price'])) {
+                if ($request->price) {
                     //fazer filtro para buscar valores entre os numeros
-                    return $query->Where('price', $data['price']);
+                    $query->Where('price', $request->price);
+                }
+                if($request->category){
+                    $query->Where('category_id', $request->category);
                 }
             })->get();
-        // dd($products);
 
-        return view('admin.products.index', compact('products', 'data'));
+        return view('admin.products.index', compact('products'));
     }
 }

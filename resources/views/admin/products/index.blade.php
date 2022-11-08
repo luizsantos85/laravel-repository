@@ -22,7 +22,7 @@
                 @csrf
                 <input type="text" name="name" id="" class="form-control col-md-3" placeholder="Pesquisar título...">
                 <input type="text" name="price" id="" class="form-control col-md-2 ml-1" placeholder="Pesquisar preço...">
-                <select name="category " class="form-control col-md-2 ml-1">
+                <select name="category" class="form-control col-md-2 ml-1">
                     <option value="">Categoria...</option>
                     @foreach ($categories as $id => $category)
                     <option value="{{$id}}">{{$category}}</option>
