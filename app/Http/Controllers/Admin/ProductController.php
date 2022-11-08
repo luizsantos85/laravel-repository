@@ -37,7 +37,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::pluck('title','id');
+        $categories = Category::pluck('title', 'id');
         return view('admin.products.create', compact('categories'));
     }
 
@@ -69,7 +69,7 @@ class ProductController extends Controller
     public function show($id)
     {
         // $product = $this->product->find($id);
-        $product = $this->product->with('category')->where('id',$id)->first();
+        $product = $this->product->with('category')->where('id', $id)->first();
         if (!$product) {
             return redirect()->back()->with('error', 'Produto não encontrado.');
         }
@@ -128,5 +128,30 @@ class ProductController extends Controller
         }
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Produto deletado com sucesso.');
+    }
+
+    /**
+     * Busca de produtos
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function search(Request $request)
+    {
+        $data = $request->except('_token');
+
+        $products = $this->product->with('category')
+            ->where(function ($query) use ($data) {
+                if (isset($data['name'])) {
+                    return $query->where('name', 'LIKE', "%{$data['name']}%");
+                }
+                if (isset($data['price'])) {
+                    //fazer filtro para buscar valores entre os numeros
+                    return $query->Where('price', $data['price']);
+                }
+            })->get();
+        // dd($products);
+
+        return view('admin.products.index', compact('products', 'data'));
     }
 }

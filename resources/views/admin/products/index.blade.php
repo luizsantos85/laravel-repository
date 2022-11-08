@@ -18,12 +18,16 @@
 
     <div class="pb-3 col-md-12">
         <div class="col">
-            <form class="form-inline" method="post" action="">
+            <form class="form-inline" method="post" action="{{route('productSearch')}}">
                 @csrf
-                <input type="text" name="title" id="" class="form-control col-md-3" placeholder="Pesquisar título..."
-                    {{-- value="{{ $data['title'] ?? '' }}" --}}>
-                <input type="text" name="url" id="" class="form-control col-md-3 ml-2" placeholder="Pesquisar url..."
-                    {{-- value="{{ $data['url'] ?? '' }}" --}}>
+                <input type="text" name="name" id="" class="form-control col-md-3" placeholder="Pesquisar título...">
+                <input type="text" name="price" id="" class="form-control col-md-2 ml-1" placeholder="Pesquisar preço...">
+                <select name="category " class="form-control col-md-2 ml-1">
+                    <option value="">Categoria...</option>
+                    @foreach ($categories as $id => $category)
+                    <option value="{{$id}}">{{$category}}</option>
+                    @endforeach
+                </select>
                 <button class="btn btn-default ml-2" type="submit">Pesquisar</button>
             </form>
 
@@ -48,7 +52,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($products as $product)
+                    @forelse ($products as $product)
                     <tr>
                         <th scope="row">{{$product->id}}</th>
                         <td>
@@ -73,18 +77,22 @@
                             </form>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="5">Nenhum produto encontrado.</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
 
     </div>
-    @if (isset($data))
+    {{-- @if (isset($data))
     {{$products->appends($data)->links()}}
 
     @else
     {{$products->links()}}
-    @endif
+    @endif --}}
 </div>
 
 

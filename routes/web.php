@@ -25,4 +25,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::any('/admin/categories/search', [CategoryController::class,'search'])->name('categorySearch');
 Route::resource('/admin/categories', CategoryController::class);
+Route::any('/admin/products/search', [ProductController::class,'search'])->name('productSearch');
 Route::resource('/admin/products', ProductController::class);
