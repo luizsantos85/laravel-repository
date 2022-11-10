@@ -20,12 +20,15 @@
         <div class="col">
             <form class="form-inline" method="post" action="{{route('productSearch')}}">
                 @csrf
-                <input type="text" name="name" id="" class="form-control col-md-3" placeholder="Pesquisar título...">
-                <input type="text" name="price" id="" class="form-control col-md-2 ml-1" placeholder="Pesquisar preço...">
+                <input type="text" name="name" value="{{$data['name'] ?? ''}}" class="form-control col-md-3" placeholder="Pesquisar título...">
+                <input type="text" name="price" value="{{$data['price'] ?? ''}}" class="form-control col-md-2 ml-1"
+                    placeholder="Pesquisar preço...">
                 <select name="category" class="form-control col-md-2 ml-1">
-                    <option value="">Categoria...</option>
+                    <option value disabled selected>Categoria...</option>
                     @foreach ($categories as $id => $category)
-                    <option value="{{$id}}">{{$category}}</option>
+                    <option value="{{$id}}" @if (isset($data['category']) && $data['category'] == $id) selected @endif>
+                        {{$category}}
+                    </option>
                     @endforeach
                 </select>
                 <button class="btn btn-default ml-2" type="submit">Pesquisar</button>
@@ -87,12 +90,12 @@
         </div>
 
     </div>
-    {{-- @if (isset($data))
+    @if (isset($data))
     {{$products->appends($data)->links()}}
 
     @else
     {{$products->links()}}
-    @endif --}}
+    @endif
 </div>
 
 

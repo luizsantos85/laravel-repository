@@ -136,7 +136,7 @@ class ProductController extends Controller
      */
     public function search(Request $request)
     {
-        // $data = $request->except('_token');
+        $data = $request->except('_token');
 
         // $products = $this->product->with(['category' => function($query) use ($request){
         //     $query->where('id', $request->category);
@@ -144,22 +144,22 @@ class ProductController extends Controller
         // ])
 
         $products = $this->product->with('category')
-            ->where(function ($query) use ($request) {
-                if ($request->name) {
-                    $filter = $request->name;
+            ->where(function ($query) use ($data) {
+                if (isset($data['name'])) {
+                    $filter = $data['name'];
                     $query->where(function($subQuery) use ($filter){
                         $subQuery->where('name', 'LIKE', "%{$filter}%");
                     });
                 }
-                if ($request->price) {
+                if (isset($data['price'])) {
                     //fazer filtro para buscar valores entre os numeros
-                    $query->Where('price', $request->price);
+                    $query->Where('price', $data['price']);
                 }
-                if($request->category){
-                    $query->Where('category_id', $request->category);
+                if(isset($data['category'])){
+                    $query->Where('category_id', $data['category']);
                 }
-            })->get();
+            })->paginate($this->perPage);
 
-        return view('admin.products.index', compact('products'));
+        return view('admin.products.index', compact('products', 'data'));
     }
 }
