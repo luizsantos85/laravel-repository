@@ -47,7 +47,7 @@ class BaseEloquentRepository implements RepositoryInterface
     public function update(int $id, array $data)
     {
         $entity = $this->findById($id);
-        return $this->entity->update($data);
+        return $entity->update($data);
     }
 
     public function destroy(int $id)

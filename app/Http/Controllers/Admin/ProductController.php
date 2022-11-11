@@ -56,7 +56,8 @@ class ProductController extends Controller
         }
         $product = $category->products()->create($request->all()); */
 
-        $this->repository->create($request->all());
+        //tratar data
+        $this->repository->store($request->all());
         return redirect()->route('products.index')->with('success', 'Produto cadastrado com sucesso.');
     }
 
@@ -68,8 +69,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        // $product = $this->repository->find($id);
-        $product = $this->repository->with('category')->where('id', $id)->first();
+        $product = $this->repository->findWhereFirst('id', $id);
         if (!$product) {
             return redirect()->back()->with('error', 'Produto não encontrado.');
         }
@@ -85,8 +85,8 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        // $product = $this->repository->find($id);
-        $product = $this->repository->with('category')->where('id', $id)->first();
+        $product = $this->repository->findById($id);
+        // $product = $this->repository->findWhereFirst('id', $id);
 
         if (!$product) {
             return redirect()->back()->with('error', 'Produto não encontrado.');
@@ -104,12 +104,12 @@ class ProductController extends Controller
      */
     public function update(StoreUpdateProductFormRequest $request, $id)
     {
-        $product = $this->repository->find($id);
+        $product = $this->repository->update($id, $request->all());
 
         if (!$product) {
             return redirect()->back()->with('error', 'Produto não encontrado.');
         }
-        $product->update($request->all());
+
         return redirect()->route('products.index')->with('success', 'Produto atualizado com sucesso.');
     }
 
@@ -121,11 +121,10 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = $this->repository->find($id);
+        $product = $this->repository->destroy($id);
         if (!$product) {
             return redirect()->back()->with('error', 'Produto não encontrado.');
         }
-        $product->delete();
         return redirect()->route('products.index')->with('success', 'Produto deletado com sucesso.');
     }
 

@@ -3,8 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Category;
-use App\Repositories\Contracts\ProductRepositoryInterface;
-use App\Repositories\Core\Eloquent\EloquentProductRepository;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,10 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(
-            ProductRepositoryInterface::class,
-            EloquentProductRepository::class
-        );
+
     }
 
     /**
