@@ -6,17 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateProductFormRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Repositories\Contracts\ProductRepositoryInterface;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
 
     protected $perPage = 15;
-    protected $product;
+    protected $repository;
 
-    public function __construct(Product $product)
+    public function __construct(ProductRepositoryInterface $repository)
     {
-        $this->product = $product;
+        $this->repository = $repository;
     }
 
     /**
@@ -26,7 +27,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = $this->product->with('category')->paginate($this->perPage);
+        $products = $this->repository->paginate();
         return view('admin.products.index', compact('products'));
     }
 
@@ -55,7 +56,7 @@ class ProductController extends Controller
         }
         $product = $category->products()->create($request->all()); */
 
-        $this->product->create($request->all());
+        $this->repository->create($request->all());
         return redirect()->route('products.index')->with('success', 'Produto cadastrado com sucesso.');
     }
 
@@ -67,8 +68,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        // $product = $this->product->find($id);
-        $product = $this->product->with('category')->where('id', $id)->first();
+        // $product = $this->repository->find($id);
+        $product = $this->repository->with('category')->where('id', $id)->first();
         if (!$product) {
             return redirect()->back()->with('error', 'Produto não encontrado.');
         }
@@ -84,8 +85,8 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        // $product = $this->product->find($id);
-        $product = $this->product->with('category')->where('id', $id)->first();
+        // $product = $this->repository->find($id);
+        $product = $this->repository->with('category')->where('id', $id)->first();
 
         if (!$product) {
             return redirect()->back()->with('error', 'Produto não encontrado.');
@@ -103,7 +104,7 @@ class ProductController extends Controller
      */
     public function update(StoreUpdateProductFormRequest $request, $id)
     {
-        $product = $this->product->find($id);
+        $product = $this->repository->find($id);
 
         if (!$product) {
             return redirect()->back()->with('error', 'Produto não encontrado.');
@@ -120,7 +121,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = $this->product->find($id);
+        $product = $this->repository->find($id);
         if (!$product) {
             return redirect()->back()->with('error', 'Produto não encontrado.');
         }
@@ -138,12 +139,12 @@ class ProductController extends Controller
     {
         $data = $request->except('_token');
 
-        // $products = $this->product->with(['category' => function($query) use ($request){
+        // $products = $this->repository->with(['category' => function($query) use ($request){
         //     $query->where('id', $request->category);
         // }
         // ])
 
-        $products = $this->product->with('category')
+        $products = $this->repository->with('category')
             ->where(function ($query) use ($data) {
                 if (isset($data['name'])) {
                     $filter = $data['name'];
