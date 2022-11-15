@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateProductFormRequest;
-use App\Models\Category;
-use App\Models\Product;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -27,7 +25,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = $this->repository->paginate();
+        $products = $this->repository->relationsShips('category')->paginate();
+        
         return view('admin.products.index', compact('products'));
     }
 
@@ -138,27 +137,7 @@ class ProductController extends Controller
     {
         $data = $request->except('_token');
 
-        // $products = $this->repository->with(['category' => function($query) use ($request){
-        //     $query->where('id', $request->category);
-        // }
-        // ])
-
-        $products = $this->repository->with('category')
-            ->where(function ($query) use ($data) {
-                if (isset($data['name'])) {
-                    $filter = $data['name'];
-                    $query->where(function($subQuery) use ($filter){
-                        $subQuery->where('name', 'LIKE', "%{$filter}%");
-                    });
-                }
-                if (isset($data['price'])) {
-                    //fazer filtro para buscar valores entre os numeros
-                    $query->Where('price', $data['price']);
-                }
-                if(isset($data['category'])){
-                    $query->Where('category_id', $data['category']);
-                }
-            })->paginate($this->perPage);
+        $products = $this->repository->search($data, $this->perPage);
 
         return view('admin.products.index', compact('products', 'data'));
     }

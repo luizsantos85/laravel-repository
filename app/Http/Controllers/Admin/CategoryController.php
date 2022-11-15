@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateCategoryFormRequest;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -129,24 +128,8 @@ class CategoryController extends Controller
      */
     public function search(Request $request)
     {
-        // $search = $request->search;
-        // $categories = DB::table('categories')
-        // ->where('title', 'LIKE', "%{$search}%")
-        // ->orWhere('url', 'LIKE', "%{$search}%")
-        // ->get();
-
         $data = $request->except('_token');
-        $categories = DB::table('categories')
-            ->where(function($query) use ($data){
-                if(isset($data['title'])){
-                    $query->where('title', 'LIKE', "%{$data['title']}%" );
-                }
-                if(isset($data['url'])){
-                    $query->orWhere('url', 'LIKE', "%{$data['url']}%" );
-                }
-            })
-            ->orderBy('id', 'desc')
-            ->paginate($this->perPage);
+        $categories = $this->repository->search($data, $this->perPage);
 
         return view('admin.categories.index', compact('categories', 'data'));
     }
