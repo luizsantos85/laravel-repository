@@ -25,8 +25,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = $this->repository->relationsShips('category')->paginate();
-        
+        $products = $this->repository->orderBy('id','asc')->relationsShips('category')->paginate();
+
         return view('admin.products.index', compact('products'));
     }
 
@@ -72,7 +72,7 @@ class ProductController extends Controller
         if (!$product) {
             return redirect()->back()->with('error', 'Produto não encontrado.');
         }
-
+        dd($product);
         return view('admin.products.show', compact('product'));
     }
 

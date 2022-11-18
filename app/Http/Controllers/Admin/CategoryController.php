@@ -25,7 +25,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = $this->repository->paginate($this->perPage);
+        $categories = $this->repository->orderBy('id','asc')->paginate($this->perPage);
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -50,7 +50,6 @@ class CategoryController extends Controller
     {
         $this->repository->store([
             'title' => $request->title,
-            'url' => $request->url,
             'description' => $request->description
         ]);
 
@@ -101,7 +100,6 @@ class CategoryController extends Controller
     {
         $this->repository->update($id,[
                 'title' => $request->title,
-                'url' => $request->url,
                 'description' => $request->description
             ]);
 

@@ -2,48 +2,57 @@
 
 namespace App\Repositories\Core;
 
-use DB;
+// use DB;
+use Illuminate\Database\DatabaseManager as DB;
 use App\Repositories\Contracts\RepositoryInterface;
 use App\Repositories\Exceptions\PropertyTableNotExists;
 
 class BaseQueryBuilderRepository implements RepositoryInterface
 {
-    protected $tb;
+    protected $tb, $db;
+    protected $orderBy = ['column' => 'id', 'order' => 'desc'];
 
-    public function __construct()
+    public function __construct(DB $db)
     {
         $this->tb = $this->resolveTable();
+        $this->db = $db;
     }
 
     public function getAll()
     {
-        return DB::table($this->tb)->get();
+        return $this->db
+            ->table($this->tb)
+            ->orderBy($this->orderBy['column'], $this->orderBy['order'])
+            ->get();
     }
 
     public function findById(int $id)
     {
-        return DB::table($this->tb)->find($id);
+        return $this->db->table($this->tb)->find($id);
     }
 
     public function findWhere(string $column, string $value)
     {
-        return DB::table($this->tb)->where($column, $value)->get();
+        return $this->db->table($this->tb)->where($column, $value)->get();
 
     }
 
     public function findWhereFirst(string $column, string $value)
     {
-        return DB::table($this->tb)->where($column, $value)->first();
+        return $this->db->table($this->tb)->where($column, $value)->first();
     }
 
     public function paginate(int $totalPage = 10)
     {
-        return DB::table($this->tb)->paginate($totalPage);
+        return $this->db
+                ->table($this->tb)
+                ->orderBy($this->orderBy['column'], $this->orderBy['order'])
+                ->paginate($totalPage);
     }
 
     public function store(array $data)
     {
-        return DB::table($this->tb)->insert($data);
+        return $this->db->table($this->tb)->insert($data);
     }
 
     public function update(int $id, array $data)
@@ -51,13 +60,21 @@ class BaseQueryBuilderRepository implements RepositoryInterface
         // $category = $this->findById($id);
         // return $category->update($data);
 
-        return DB::table($this->tb)->where('id', $id)->update($data);
+        return $this->db->table($this->tb)->where('id', $id)->update($data);
     }
 
     public function destroy(int $id)
     {
-        return DB::table($this->tb)->where('id', $id)->delete();
+        return $this->db->table($this->tb)->where('id', $id)->delete();
     }
+
+    public function orderBy($column, $order = "DESC")
+    {
+        $this->orderBy['column'] = $column;
+        $this->orderBy['order'] = $order;
+        return $this;
+    }
+
 
     public function resolveTable()
     {
