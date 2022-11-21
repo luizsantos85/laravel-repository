@@ -25,4 +25,10 @@ class QueryBuilderCategoryRepository extends BaseQueryBuilderRepository implemen
         $data['url'] = Str::of($data['title'])->kebab();
         return $this->db->table($this->tb)->where('id', $id)->update($data);
     }
+
+    public function productsByCategoryId($id)
+    {
+        return $this->db->table('products')->where('category_id',$id)->get();
+    }
+
 }

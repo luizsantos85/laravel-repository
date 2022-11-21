@@ -114,6 +114,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        if(count($this->repository->productsByCategoryId($id)) > 0){
+            return redirect()->back()->with('error', 'Existe produtos vinculados à esta categoria.');
+        }
         $this->repository->destroy($id);
         return redirect()->route('categories.index')->with('success', 'Categoria excluída com sucesso.');
     }
