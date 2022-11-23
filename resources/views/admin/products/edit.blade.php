@@ -5,7 +5,7 @@
 @section('content_header')
 <h1>@yield('title')</h1>
 <ol class="breadcrumb">
-    <li class="breadcrumb-item "><a href="{{route('home')}}">Dashboard</a></li>
+    <li class="breadcrumb-item "><a href="{{route('admin')}}">Dashboard</a></li>
     <li class="breadcrumb-item"><a href="{{route('products.index')}}">Produtos</a></li>
     <li class="breadcrumb-item active"><a href="{{route('products.edit', $product->id)}}">Editar</a></li>
 </ol>

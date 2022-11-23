@@ -72,7 +72,7 @@ class ProductController extends Controller
         if (!$product) {
             return redirect()->back()->with('error', 'Produto não encontrado.');
         }
-        dd($product);
+
         return view('admin.products.show', compact('product'));
     }
 
