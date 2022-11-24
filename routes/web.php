@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Site\SiteController;
 
 Route::prefix('admin')->middleware('auth')->group(function(){
@@ -13,6 +14,8 @@ Route::prefix('admin')->middleware('auth')->group(function(){
     Route::resource('categories', CategoryController::class);
     Route::any('products/search', [ProductController::class, 'search'])->name('productSearch');
     Route::resource('products', ProductController::class);
+    Route::any('users/search', [UserController::class, 'search'])->name('userSearch');
+    Route::resource('users', UserController::class);
 });
 
 Route::get('/', [SiteController::class,'index'])->name('site.home');
