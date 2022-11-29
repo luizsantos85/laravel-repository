@@ -13,7 +13,7 @@
 @section('content')
 <div class="content row">
     <div class="col-md-12 mb-4">
-        <a href="" class="btn btn-primary">Novo Usuário</a>
+        <a href="{{route('users.create')}}" class="btn btn-primary">Novo Usuário</a>
     </div>
 
     <div class="pb-3 col-md-12">
@@ -52,16 +52,16 @@
                     <tr>
                         <th scope="row">{{$user->id}}</th>
                         <td>
-                            <a href="" class="font-weight-bold text-secondary">
+                            <a href="{{route('users.show', $user->id)}}" class="font-weight-bold text-secondary">
                                 {{$user->name}}
                             </a>
                         </td>
                         <td>{{$user->email}}</td>
 
                         <td>
-                            <a href="" class="btn btn-sm btn-warning">Editar</a>
+                            <a href="{{route('users.edit', $user->id)}}" class="btn btn-sm btn-warning">Editar</a>
 
-                            <form action="" method="POST" class="d-inline">
+                            <form action="{{route('users.destroy', $user->id)}}" method="POST" class="d-inline">
                                 @method('DELETE')
                                 @csrf
                                 <button class="btn btn-sm btn-outline-secondary" type="submit"
