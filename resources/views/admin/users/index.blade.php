@@ -22,7 +22,7 @@
                 @csrf
                 <input type="text" name="name" value="{{$data['name'] ?? ''}}" class="form-control col-md-3"
                     placeholder="Pesquisar nome...">
-                <input type="text" name="price" value="{{$data['price'] ?? ''}}" class="form-control col-md-2 ml-1"
+                <input type="text" name="email" value="{{$data['email'] ?? ''}}" class="form-control col-md-2 ml-1"
                     placeholder="Pesquisar email...">
 
                 <button class="btn btn-default ml-2" type="submit">Pesquisar</button>
